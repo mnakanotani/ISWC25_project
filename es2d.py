@@ -11,6 +11,24 @@ def main(nsp,q,mp,vtc,ppc,dx,dy,nx,ny,dt,nt,vb,isav,isavp,run):
     up=np.zeros((nsp,2,nop)) #particle position
     vp=np.zeros((nsp,2,nop)) #particle velocity
 
+    ### set initial condition ###
+    for isp in range(nsp):
+        if(isp==0):
+            up[isp,0,:]=np.random.rand(nop)*lx
+            up[isp,1,:]=np.random.rand(nop)*ly
+        else:
+            up[isp,0,:]=up[0,0,:]
+            up[isp,1,:]=up[0,1,:]
+
+    for isp in range(nsp):
+        vp[isp,0,:]=np.random.normal(0,vtc[isp],nop)#+vb[isp]
+        vp[isp,1,:]=np.random.normal(0,vtc[isp],nop)#+vb[isp]
+
+    plt.plot(up[0,0,:],up[0,1,:],'.')
+    plt.show()
+
+    plt.hist(vp[0,0,:],100)
+    plt.show()
     
     ### set Fourier space
     kx=2*np.pi*(np.fft.fftfreq(nx,dx))#2*mt.pi/lx*np.r_[np.arange(nx/2),np.arange(-nx/2,0)]
